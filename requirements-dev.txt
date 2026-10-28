@@ -1,0 +1,4 @@
+# Somente para empacotar o executável e regenerar ícones.
+# O programa Python e os testes com unittest não precisam de pip install.
+pyinstaller==6.22.3
+Pillow==12.2.0

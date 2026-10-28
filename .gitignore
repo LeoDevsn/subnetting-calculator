@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+build/
+dist/
+artifacts/
+*.spec
+node_modules/
+.env
+.env.*
+.DS_Store
+.openai/local/
+*.log
+test-results/
+web/.git/

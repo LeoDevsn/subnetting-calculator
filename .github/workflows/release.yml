@@ -1,0 +1,39 @@
+name: Executável Windows
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: python -m unittest discover -s tests -v
+      - run: python -m pip install -r requirements-dev.txt
+      - run: python scripts/build-exe.py
+      - name: Verificar executável
+        shell: pwsh
+        run: |
+          $result = ./artifacts/CalculadoraIPv4.exe --ip 192.168.10.130 --prefix 26 --json | ConvertFrom-Json
+          if ($LASTEXITCODE -ne 0 -or $result.network -ne '192.168.10.128' -or $result.hosts -ne 62) { throw 'Resultado inválido' }
+          (Get-FileHash artifacts/CalculadoraIPv4.exe -Algorithm SHA256).Hash | Set-Content artifacts/SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CalculadoraIPv4-Windows
+          path: |
+            artifacts/CalculadoraIPv4.exe
+            artifacts/SHA256.txt
+      - name: Anexar à release
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view $env:GITHUB_REF_NAME
+          if ($LASTEXITCODE -ne 0) { gh release create $env:GITHUB_REF_NAME --title "Calculadora IPv4 $env:GITHUB_REF_NAME" --notes-file docs/RELEASE-v1.0.0.md }
+          gh release upload $env:GITHUB_REF_NAME artifacts/CalculadoraIPv4.exe artifacts/SHA256.txt --clobber

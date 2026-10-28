@@ -1,0 +1,16 @@
+{
+  "name": "ipv4-subnetting-calculator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-web.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:python": "python -m unittest discover -s tests -v",
+    "preview": "python -m http.server 4173 --bind 127.0.0.1 --directory web/dist"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "prettier": "^3.9.10"
+  }
+}

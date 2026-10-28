@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111c18" />
+    <meta
+      name="description"
+      content="Calcule redes IPv4, máscaras, broadcast e hosts. Entenda cada etapa com o modo didático. Gratuito e offline."
+    />
+    <title>Calculadora IPv4 e Subnetting</title>
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#calculator">Ir para a calculadora</a>
+    <header class="topbar">
+      <a href="./" class="brand" aria-label="Calculadora IPv4, início"
+        ><span class="brand-icon" aria-hidden="true">⌘</span
+        ><span>subnet<span class="brand-light"> / IPv4</span></span></a
+      >
+      <nav aria-label="Navegação principal">
+        <span class="version">v1.0</span
+        ><a
+          href="https://github.com/LeoDevsn/subnetting-calculator"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub <span aria-hidden="true">↗</span></a
+        ><button id="install" class="install" type="button">
+          Instalar app <span aria-hidden="true">↓</span>
+        </button>
+      </nav>
+    </header>
+    <main>
+      <section class="intro">
+        <div class="eyebrow">
+          <span class="dot"></span> SUA REDE, SEM COMPLICAÇÃO
+        </div>
+        <h1>Pequenos bits.<br /><span>Grandes conexões.</span></h1>
+        <p>
+          Do endereço ao último host. Calcule sua sub-rede<br class="desktop" />
+          e entenda o caminho, bit por bit.
+        </p>
+      </section>
+      <div class="workspace">
+        <aside>
+          <section
+            class="card input-card"
+            id="calculator"
+            aria-labelledby="input-title"
+          >
+            <div class="section-heading">
+              <span class="number">01</span>
+              <h2 id="input-title">Configure sua rede</h2>
+            </div>
+            <form id="network-form" novalidate>
+              <label id="ip-label" for="octet-0">Endereço IPv4</label>
+              <div
+                class="ip-input"
+                role="group"
+                aria-labelledby="ip-label"
+                aria-describedby="ip-hint ip-error"
+              >
+                <input
+                  id="octet-0"
+                  aria-label="Primeiro octeto"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  maxlength="3"
+                  value="192"
+                />
+                <span aria-hidden="true">.</span
+                ><input
+                  id="octet-1"
+                  aria-label="Segundo octeto"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  maxlength="3"
+                  value="168"
+                />
+                <span aria-hidden="true">.</span
+                ><input
+                  id="octet-2"
+                  aria-label="Terceiro octeto"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  maxlength="3"
+                  value="10"
+                />
+                <span aria-hidden="true">.</span
+                ><input
+                  id="octet-3"
+                  aria-label="Quarto octeto"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  maxlength="3"
+                  value="130"
+                />
+              </div>
+              <p class="hint" id="ip-hint">
+                Quatro octetos, de 0 a 255. Cole um IPv4 completo.
+              </p>
+              <p class="error" id="ip-error" role="alert" hidden></p>
+              <div class="prefix-heading">
+                <label for="prefix">Prefixo CIDR</label
+                ><span class="prefix-value"
+                  >/<input
+                    id="prefix"
+                    aria-label="Prefixo CIDR"
+                    inputmode="numeric"
+                    maxlength="2"
+                    value="26"
+                    aria-describedby="prefix-error"
+                /></span>
+              </div>
+              <input
+                id="prefix-range"
+                type="range"
+                min="0"
+                max="32"
+                value="26"
+                aria-label="Ajustar prefixo CIDR"
+              />
+              <div class="range-labels">
+                <span>/0 <small>mais endereços</small></span
+                ><span><small>menos endereços</small> /32</span>
+              </div>
+              <p class="error" id="prefix-error" role="alert" hidden></p>
+              <div class="quick-label">ATALHOS DE PREFIXO</div>
+              <div class="presets" aria-label="Prefixos frequentes">
+                <button type="button" data-prefix="8">/8</button
+                ><button type="button" data-prefix="16">/16</button
+                ><button type="button" data-prefix="24">/24</button
+                ><button
+                  type="button"
+                  data-prefix="26"
+                  class="selected"
+                  aria-pressed="true"
+                >
+                  /26</button
+                ><button type="button" data-prefix="30">/30</button
+                ><button type="button" data-prefix="31">/31</button
+                ><button type="button" data-prefix="32">/32</button>
+              </div>
+              <button type="submit" class="calculate-button">
+                Calcular sub-rede <span aria-hidden="true">↗</span>
+              </button>
+              <button type="button" class="reset-button" id="reset">
+                Limpar campos
+              </button>
+            </form>
+          </section>
+          <section class="tip">
+            <span class="tip-icon" aria-hidden="true">i</span>
+            <div>
+              <h3>Aprenda enquanto calcula</h3>
+              <p>
+                O modo didático mostra as fórmulas e a divisão entre bits de
+                rede e de host.
+              </p>
+            </div>
+          </section>
+          <section class="history" aria-labelledby="history-title">
+            <div class="history-heading">
+              <h3 id="history-title">Cálculos recentes</h3>
+              <button type="button" id="clear-history" hidden>Limpar</button>
+            </div>
+            <p id="history-empty">Seus próximos cálculos aparecem aqui.</p>
+            <div id="history-list"></div>
+          </section>
+        </aside>
+        <section class="card result-card" aria-labelledby="result-title">
+          <div class="result-top">
+            <div class="section-heading">
+              <span class="number">02</span>
+              <h2 id="result-title">Sua sub-rede</h2>
+            </div>
+            <span class="status" id="result-status"
+              ><span class="dot"></span> Calculado</span
+            >
+          </div>
+          <div class="result-body" id="result-body">
+            <div class="result-heading">
+              <div>
+                <p class="small-label">ENDEREÇO DE REDE / CIDR</p>
+                <div class="network" id="network">
+                  192.168.10.128<span>/26</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="icon-button"
+                id="copy"
+                aria-label="Copiar resultado"
+                title="Copiar resultado"
+              >
+                ⧉
+              </button>
+            </div>
+            <div class="classification" id="classification">
+              Host utilizável
+            </div>
+            <div class="metrics">
+              <div>
+                <span class="small-label">TOTAL DE ENDEREÇOS</span
+                ><strong id="total">64</strong>
+              </div>
+              <div>
+                <span class="small-label">HOSTS UTILIZÁVEIS</span
+                ><strong id="hosts">62</strong>
+              </div>
+              <div>
+                <span class="small-label">TAMANHO DO BLOCO</span
+                ><strong id="block">64</strong
+                ><small id="block-octet">no 4º octeto</small>
+              </div>
+            </div>
+            <dl class="addresses">
+              <div>
+                <dt>Máscara de sub-rede</dt>
+                <dd id="mask">255.255.255.192</dd>
+              </div>
+              <div>
+                <dt>Wildcard</dt>
+                <dd id="wildcard">0.0.0.63</dd>
+              </div>
+              <div>
+                <dt>Endereço de rede</dt>
+                <dd id="network-address">192.168.10.128</dd>
+              </div>
+              <div>
+                <dt>Broadcast</dt>
+                <dd id="broadcast">192.168.10.191</dd>
+              </div>
+              <div class="host-row">
+                <dt><span class="host-dot"></span> Primeiro host</dt>
+                <dd id="first-host">192.168.10.129</dd>
+              </div>
+              <div class="host-row">
+                <dt><span class="host-dot"></span> Último host</dt>
+                <dd id="last-host">192.168.10.190</dd>
+              </div>
+            </dl>
+            <p class="network-note" id="network-note"></p>
+            <details id="didactic">
+              <summary>
+                <span
+                  ><span class="code-symbol" aria-hidden="true">&lt;/&gt;</span>
+                  Entenda o cálculo <small>Modo didático</small></span
+                ><span class="chevron" aria-hidden="true">＋</span>
+              </summary>
+              <div class="didactic-body">
+                <h3>Uma rede em 32 bits</h3>
+                <p>Verde representa a rede. Cinza representa os hosts.</p>
+                <div
+                  class="binary"
+                  id="binary"
+                  aria-label="Representação binária do IPv4"
+                ></div>
+                <div class="binary-legend">
+                  <span><i></i> Rede: <b id="network-bits">26</b> bits</span
+                  ><span><i></i> Hosts: <b id="host-bits">6</b> bits</span>
+                </div>
+                <ol id="steps"></ol>
+              </div>
+            </details>
+            <div class="result-actions">
+              <button type="button" id="download">↓ Exportar .txt</button
+              ><span id="input-caption">IPv4 informado: 192.168.10.130</span>
+            </div>
+          </div>
+          <div class="empty-state" id="empty-state" hidden>
+            <span aria-hidden="true">⌘</span>
+            <h3>Vamos calcular uma rede?</h3>
+            <p>
+              Preencha o IPv4 e o prefixo CIDR.<br />Seu resultado aparece aqui.
+            </p>
+          </div>
+        </section>
+      </div>
+      <section class="bottom-note">
+        <span aria-hidden="true">◈</span>
+        <p>Feita para estudar. Pronta para o dia a dia.</p>
+        <span>IPv4 · CIDR · Subnetting</span>
+      </section>
+    </main>
+    <footer>
+      <span
+        >Desenvolvido por
+        <a
+          href="https://github.com/LeoDevsn"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Leonardo Santos</a
+        ></span
+      ><span>Processamento local · Sem cadastro</span
+      ><span id="connection-status">Disponível no navegador</span>
+    </footer>
+    <dialog id="install-dialog">
+      <button
+        id="close-dialog"
+        class="dialog-close"
+        type="button"
+        aria-label="Fechar"
+      >
+        ×
+      </button>
+      <h2>Sua calculadora, sempre à mão.</h2>
+      <p>
+        No Android, abra o site no Chrome e use o menu
+        <strong>⋮ → Adicionar à tela inicial → Instalar</strong>.
+      </p>
+      <p>
+        No iPhone, use
+        <strong>Compartilhar → Adicionar à Tela de Início</strong>. No
+        computador, procure o ícone de instalação na barra de endereço.
+      </p>
+      <p class="hint">
+        A instalação depende do navegador e de um endereço HTTPS. Após a
+        primeira carga completa, o app pode funcionar offline.
+      </p>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    <div
+      class="sr-only"
+      id="announcement"
+      role="status"
+      aria-live="polite"
+    ></div>
+    <noscript
+      ><p class="noscript">
+        Ative o JavaScript para usar a calculadora ou execute a versão Python
+        disponível no GitHub.
+      </p></noscript
+    >
+  </body>
+</html>

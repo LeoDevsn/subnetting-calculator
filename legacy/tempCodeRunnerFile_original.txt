@@ -1,0 +1,5 @@
+octetos = ip.split(".")
+
+    if len(octetos) != 4:
+        print("Erro: O IPv4 deve conter exatamente 4 octetos.")
+        return
