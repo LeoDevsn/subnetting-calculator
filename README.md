@@ -4,7 +4,9 @@
 
 Projeto de **Leonardo Santos · [LeoDevsn](https://github.com/LeoDevsn)**, criado a partir de um exercício de Python e evoluído para uma ferramenta com interface web, instalação no celular e terminal Windows.
 
-[Abrir a versão hospedada](https://ipv4-subnetting-leodevsn.hushedcharm256.chatgpt.site) · Publicação Sites privada, acessível ao proprietário. A publicação pública no GitHub Pages depende da configuração e execução do workflow no repositório.
+[**Abrir a calculadora**](https://leodevsn.github.io/subnetting-calculator/) · [**Baixar a versão Windows**](https://github.com/LeoDevsn/subnetting-calculator/releases/latest) · [**Testes automáticos**](https://github.com/LeoDevsn/subnetting-calculator/actions)
+
+O site público está no GitHub Pages. Há também uma [publicação Sites privada](https://ipv4-subnetting-leodevsn.hushedcharm256.chatgpt.site), acessível ao proprietário.
 
 ## O que a versão 1.0 entrega
 
@@ -191,7 +193,7 @@ A classificação **Host utilizável** descreve a posição do IPv4 dentro da su
 | Pillow | Gerar os ícones PNG da PWA a partir de formas geométricas locais. |
 | Git e GitHub | Versionamento e preparação da distribuição do código. |
 | GitHub Actions | Workflows de testes, site estático e executável de release. |
-| GitHub Pages | Destino público previsto para o site, com publicação pelo workflow. |
+| GitHub Pages | Hospedagem pública do site, com publicação pelo workflow. |
 | Sites | Preparação de uma publicação hospedada da interface web. |
 | Codex / OpenAI | Assistência na revisão, implementação, documentação e automação dos testes. |
 
@@ -230,7 +232,7 @@ Para regenerar os ícones: `python scripts/generate-icons.py` após instalar `re
 
 ## Publicar no GitHub
 
-O projeto usa o destino `LeoDevsn/subnetting-calculator`. Depois do envio do código:
+O projeto está em [`LeoDevsn/subnetting-calculator`](https://github.com/LeoDevsn/subnetting-calculator), com GitHub Pages configurado para usar Actions. Para reproduzir a publicação em outro repositório:
 
 1. Em **Settings → Pages → Build and deployment**, selecione **GitHub Actions** como fonte.
 2. O workflow `pages.yml` testa e compila `web/dist`, depois publica o conteúdo estático.

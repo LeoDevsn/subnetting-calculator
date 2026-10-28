@@ -2,6 +2,8 @@
 
 Ambiente local: Windows 11 x64, Python 3.14.3 e Node.js 24.14.0.
 
+Em 28/10/2026, os workflows de testes passaram também nos runners Windows e Linux do GitHub Actions. O workflow do GitHub Pages concluiu com sucesso e o endereço público respondeu HTTP 200 com o título da aplicação.
+
 ## Verificações automatizadas
 
 - Núcleo Python: cinco IPv4 de borda para cada prefixo `/0` a `/32`, mais mil casos aleatórios com semente fixa. **1.165 comparações** com `ipaddress`.
